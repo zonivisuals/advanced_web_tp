@@ -12,7 +12,8 @@ import java.io.PrintWriter;
 public class LoginServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
         String username = request.getParameter("username");
 
@@ -20,16 +21,17 @@ public class LoginServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         if (username != null && !username.trim().isEmpty()) {
+
             HttpSession session = request.getSession(true);
 
             session.setAttribute("user", username);
             session.setAttribute("userBindingObj", new SessionUser(username));
 
-            out.println("");
-            out.println("bienvenue, " + username + " cnx reussie.");
-            out.println("acceder a la liste des articles protegee");
-            out.println("consult l'etat de la session");
-            out.println("");
+            out.println("<html><body>");
+            out.println("<h3>bienvenue, " + username + " ! connexion reussie.</h3>");
+            out.println("<p><a href='ListItems'>acceder a la liste des articles protegee</a></p>");
+            out.println("<p><a href='ShowSession'>consulter l'etat de la session</a></p>");
+            out.println("</body></html>");
 
         } else {
             response.sendRedirect("login.html");

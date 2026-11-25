@@ -14,8 +14,8 @@ public class ShowSessionServlet extends HttpServlet {
             throws ServletException, IOException {
 
         response.setContentType("text/html; charset=UTF-8");
-        PrintWriter out = response.getWriter();
 
+        PrintWriter out = response.getWriter();
         HttpSession session = request.getSession(false);
 
         Integer activeUsers = (Integer) getServletContext().getAttribute("activeSessions");
@@ -24,30 +24,26 @@ public class ShowSessionServlet extends HttpServlet {
             activeUsers = 0;
         }
 
-        out.println("");
-        out.println("infos sur la session\n");
-
-        out.println("nbr de sessions actives sur le serveur"
-                + activeUsers + "\n");
+        out.println("<html><body>");
+        out.println("<h2>informations sur la session</h2>");
+        out.println("<p><b>nombre de sessions actives sur le serveur :</b> " + activeUsers + "</p>");
 
         if (session != null && session.getAttribute("user") != null) {
 
-            out.println("\nuser connected : "
-                    + session.getAttribute("user") + "\n");
+            out.println("<p>utilisateur connecte : " + session.getAttribute("user") + "</p>");
+            out.println("<p>id de session : " + session.getId() + "</p>");
 
-            out.println("\nID de session : "
-                    + session.getId() + "\n");
-
-            out.println("");
+            out.println("<form action='ShowSession' method='POST'>");
+            out.println("<input type='submit' value='se deconnecter'>");
+            out.println("</form>");
 
         } else {
 
-            out.println("\n\n no session active pour votre navigateur.\n");
-
-            out.println("se connecter");
+            out.println("<p>aucune session active pour votre navigateur.</p>");
+            out.println("<a href='login.html'>se connecter</a>");
         }
 
-        out.println("");
+        out.println("</body></html>");
     }
 
     @Override
